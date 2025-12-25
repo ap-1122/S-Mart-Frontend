@@ -1,0 +1,27 @@
+/* src/styles/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary: #0f172a;       /* S-MART Royal Blue */
+  --secondary: #1e293b;     /* Dark Slate */
+  --accent: #f97316;        /* S-MART Orange */
+  --text-dark: #334155;
+  --bg-light: #f1f5f9;
+  --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { background-color: var(--bg-light); color: var(--text-dark); }
+
+/* Common Buttons */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #ea580c; transform: translateY(-2px); }

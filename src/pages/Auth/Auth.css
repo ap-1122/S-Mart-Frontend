@@ -1,0 +1,37 @@
+/* src/pages/Auth/Auth.css */
+.auth-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Left Side (Blue Brand Area) */
+.auth-left {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 3rem;
+}
+
+/* Right Side (Form Area) */
+.auth-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    position: relative;
+}
+
+.auth-box { width: 100%; max-width: 400px; padding: 2rem; }
+.auth-input {
+    width: 100%; padding: 12px; margin: 10px 0;
+    border: 1px solid #ddd; border-radius: 8px;
+}
+.auth-link { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+.top-right-link { position: absolute; top: 20px; right: 30px; font-size: 0.9rem; }
