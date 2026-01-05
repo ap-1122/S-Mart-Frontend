@@ -1,0 +1,98 @@
+ /* --- Global Home Container --- */
+.home-container {
+  min-height: 100vh;
+  background-color: #ffffff; /* Clean White Background */
+  padding-bottom: 50px;
+}
+
+/* --- Hero Section (Exact Replica of your Screenshot) --- */
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa; /* Very light grey for separation */
+  margin-bottom: 30px;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  color: #1a1a2e; /* Dark Navy */
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+
+.highlight-text {
+  color: #ff6b00; /* S-MART ORANGE */
+}
+
+.sub-text {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.greeting-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+/* --- Category Section --- */
+.category-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.category-bar {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  scrollbar-width: none; /* Firefox hide scrollbar */
+}
+
+/* Category Buttons */
+.cat-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 25px;
+  border-radius: 30px; /* Pill shape */
+  font-size: 15px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cat-btn:hover {
+  border-color: #ff6b00;
+  color: #ff6b00;
+}
+
+/* Active State (Selected) */
+.cat-btn.active {
+  background-color: #ff6b00; /* ORANGE Background */
+  color: white;
+  border-color: #ff6b00;
+  box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+}
+
+/* --- Product Grid --- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Responsive */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.no-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  margin-top: 50px;
+}

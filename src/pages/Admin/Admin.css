@@ -1,0 +1,100 @@
+/* src/pages/Admin/Admin.css */
+
+.admin-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #1e1e1e; /* Dark background matching your theme */
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #aaa;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.variant-box {
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px dashed #555;
+  margin-bottom: 20px;
+}
+
+.variant-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-add {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.added-variants span {
+  background-color: #007bff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  margin-right: 5px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.submit-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
