@@ -1,71 +1,23 @@
-.sidebar {
-  width: 260px;
+.admin-sidebar {
+  width: 250px;
   height: 100vh;
-  background-color: var(--primary-dark);
+  background-color: #0f172a; /* Royal Blue */
   color: white;
   display: flex;
   flex-direction: column;
-  position: fixed; /* Screen par chipka rahega */
-  left: 0;
-  top: 0;
+  padding: 20px 0;
 }
-
-.sidebar-header {
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.admin-badge {
-  background-color: var(--accent-orange);
-  font-size: 0.6em;
-  padding: 2px 6px;
-  border-radius: 4px;
-  vertical-align: middle;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.nav-item {
-  color: #94a3b8;
+.sidebar-logo { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #1e293b; }
+.nav-link {
+  color: #cbd5e1;
   text-decoration: none;
-  padding: 12px 15px;
-  border-radius: var(--radius);
+  padding: 15px 25px;
+  display: block;
   transition: 0.3s;
-  font-weight: 500;
 }
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+.nav-link:hover { background: #1e293b; color: white; }
+.nav-link.active {
+  background: #f97316; /* S-MART Orange */
   color: white;
-}
-
-.nav-item.active {
-  background-color: var(--accent-orange);
-  color: white;
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-}
-
-.sidebar-footer {
-  padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  border-radius: var(--radius);
-  cursor: pointer;
-}
-.logout-btn:hover {
-  background: rgba(255, 50, 50, 0.2);
-  border-color: #ff4444;
+  border-left: 5px solid white;
 }
