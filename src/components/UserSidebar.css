@@ -1,0 +1,129 @@
+ /* Overlay (Background dim karne ke liye) */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Navbar ke upar */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Sidebar Drawer (Right side se aayega) */
+.sidebar-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header Section */
+.sidebar-header {
+    background-color: #0f172a; /* Navbar wala dark color */
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 3px solid #f97316; /* Orange Line */
+}
+
+.sidebar-user-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.sidebar-username {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Menu Links */
+.sidebar-menu {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: #333;
+    padding: 12px 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    cursor: pointer; /* Pointer add kiya */
+}
+
+.sidebar-link:hover {
+    background-color: #f3f4f6;
+    color: #f97316; /* Orange on hover */
+    padding-left: 20px; /* Slight movement effect */
+}
+
+/* 🔥 NEW: Admin Special Button Style */
+.admin-special-link {
+    background-color: #fff7ed; /* Light Orange Background */
+    color: #ea580c; /* Dark Orange Text */
+    border: 1px solid #fed7aa; /* Orange Border */
+    font-weight: 700; /* Thoda mota text */
+}
+
+.admin-special-link:hover {
+    background-color: #ffedd5 !important; /* Hover par thoda dark orange */
+    color: #c2410c !important;
+    padding-left: 15px !important; /* Movement kam rakhi hai iski */
+}
+
+/* Footer (Logout) */
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-logout-sidebar {
+    width: 100%;
+    padding: 12px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s;
+}
+
+.btn-logout-sidebar:hover {
+    background-color: #fecaca;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
