@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+ import React, { useState } from 'react'; 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -9,19 +9,24 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import ProtectedRoute from './pages/Auth/ProtectedRoute'; 
 
-// --- NEW ADMIN IMPORTS ---
+// Admin Imports
 import AdminLayout from './layouts/AdminLayout';
 import CreateProductLayout from './components/admin/CreateProductLayout';
 import AdminBrands from './pages/admin/AdminBrands';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminOrdersPage from './pages/admin/AdminOrdersPage'; // ✅ IMPORT
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 import ProductDetailsPage from './components/pages/user/ProductDetailsPage';
-
-// ✅ 1. Cart Imports Added
 import { CartProvider } from './components/pages/user/CartContext';
 import CartPage from './components/pages/user/CartPage';
+import CheckoutPage from "./components/pages/user/CheckoutPage";
+import AddAddressPage from "./components/pages/user/AddAddressPage";
+import MyOrdersPage from "./components/pages/user/MyOrdersPage";
+import ProfilePage from "./components/pages/user/ProfilePage";
 
 const App = () => {
     const [user, setUser] = useState(() => {
@@ -39,12 +44,12 @@ const App = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('role'); 
         setUser(null);
     };
 
     return (
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-            {/* ✅ 2. Wrap Application with CartProvider */}
             <CartProvider>
                 <Router>
                     <div className="App">
@@ -52,29 +57,73 @@ const App = () => {
                         
                         <Routes>
                             <Route path="/" element={<Home user={user} />} />
-                            
-                            {/* Login Route */}
                             <Route path="/login" element={!user ? <Login onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/" />} />
-                            
                             <Route path="/register" element={<Register />} />
                             <Route path="/forgot-password" element={<ForgotPassword />} />
                             <Route path="/reset-password" element={<ResetPassword />} />
                         
                             {/* --- ADMIN ROUTES --- */}
-                            <Route path="/admin" element={<AdminLayout />}>
-                                <Route index element={<AdminDashboard />} />
-                                <Route path="dashboard" element={<AdminDashboard />} />
+                            {/* ✅ 1. Main Gate: ADMIN aur SELLER dono aa sakte hain */}
+                            <Route path="/admin" element={
+                                <ProtectedRoute allowedRoles={["ADMIN", "SELLER"]}>
+                                    <AdminLayout />
+                                </ProtectedRoute>
+                            }>
+                                
+                                <Route index element={
+                                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                        <AdminDashboard />
+                                    </ProtectedRoute>
+                                } />
+                                
+                                <Route path="users" element={
+                                   <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                      <AdminUsersPage />
+                                </ProtectedRoute>
+                                 } />
+                                <Route path="dashboard" element={
+                                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                        <AdminDashboard />
+                                    </ProtectedRoute>
+                                } />
+                                
+                                <Route path="brands" element={
+                                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                        <AdminBrands />
+                                    </ProtectedRoute>
+                                } />
+
+                                <Route path="categories" element={
+                                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                        <AdminCategories />
+                                    </ProtectedRoute>
+                                } />
+
                                 <Route path="add-product" element={<CreateProductLayout />} />
-                                <Route path="brands" element={<AdminBrands />} />
-                                <Route path="categories" element={<AdminCategories />} />
-                            </Route>
+
+                                {/* ✅ FIXED LOCATION: Ab ye '/admin' ke andar hai */}
+                                <Route path="orders" element={
+                                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                                        <AdminOrdersPage />
+                                    </ProtectedRoute>
+                                } />
+                                
+                            </Route> 
+                            {/* ⬆️ Yahan Admin ka bracket band ho raha hai. Iske andar hi sab kuch hona chahiye */}
+
 
                             {/* --- PUBLIC ROUTES --- */}
                             <Route path="/product/:id" element={<ProductDetailsPage />} />
                             
-                            {/* ✅ 3. Cart Page Route Added */}
-                            <Route path="/cart" element={<CartPage />} />
+                            {/* --- USER ROUTES --- */}
+                            <Route path="/cart" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><CartPage /></ProtectedRoute>} />
+                            <Route path="/checkout" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><CheckoutPage /></ProtectedRoute>} />
+                            <Route path="/add-address" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><AddAddressPage /></ProtectedRoute>} />
+                            <Route path="/my-orders" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><MyOrdersPage /></ProtectedRoute>} />
+                            <Route path="/profile" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><ProfilePage /></ProtectedRoute>} />
                             
+
+
                         </Routes>
                     </div>
                 </Router>
@@ -84,6 +133,279 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//update this to protect admin page from user  in upper code but seller and admin can access admin page but some feture are desable for seller 
+// import React, { useState } from 'react'; 
+// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// import { GoogleOAuthProvider } from '@react-oauth/google';
+
+// // Imports
+// import Navbar from './components/Navbar';
+// import Home from './pages/Home';
+// import Login from './pages/Auth/Login';
+// import Register from './pages/Auth/Register';
+// import ForgotPassword from './pages/Auth/ForgotPassword';
+// import ResetPassword from './pages/Auth/ResetPassword';
+// import ProtectedRoute from './pages/Auth/ProtectedRoute'; // ✅ 1. IMPORT ADDED
+
+// // --- NEW ADMIN IMPORTS ---
+// import AdminLayout from './layouts/AdminLayout';
+// import CreateProductLayout from './components/admin/CreateProductLayout';
+// import AdminBrands from './pages/admin/AdminBrands';
+// import AdminCategories from './pages/admin/AdminCategories';
+// import AdminDashboard from './pages/admin/AdminDashboard';
+
+// import ProductDetailsPage from './components/pages/user/ProductDetailsPage';
+
+// // ✅ 1. Cart Imports Added
+// import { CartProvider } from './components/pages/user/CartContext';
+// import CartPage from './components/pages/user/CartPage';
+
+// // ✅ 2. Checkout and Add Address Imports
+// import CheckoutPage from "./components/pages/user/CheckoutPage";
+// import AddAddressPage from "./components/pages/user/AddAddressPage";
+
+// //MyOrder page
+// import MyOrdersPage from "./components/pages/user/MyOrdersPage";
+
+// //Profile Page
+// import ProfilePage from "./components/pages/user/ProfilePage";
+
+// const App = () => {
+//     const [user, setUser] = useState(() => {
+//         return localStorage.getItem('username') || null;
+//     });
+
+//     const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+//     const handleLoginSuccess = (username, token) => {
+//         localStorage.setItem('token', token);
+//         localStorage.setItem('username', username);
+//         setUser(username);
+//     };
+
+//     const handleLogout = () => {
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('username');
+//         localStorage.removeItem('role'); // Role bhi clear karna chahiye
+//         setUser(null);
+//     };
+
+//     return (
+//         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+//             {/* ✅ 2. Wrap Application with CartProvider */}
+//             <CartProvider>
+//                 <Router>
+//                     <div className="App">
+//                         <Navbar user={user} onLogout={handleLogout} />
+                        
+//                         <Routes>
+//                             <Route path="/" element={<Home user={user} />} />
+                            
+//                             {/* Login Route */}
+//                             <Route path="/login" element={!user ? <Login onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/" />} />
+                            
+//                             <Route path="/register" element={<Register />} />
+//                             <Route path="/forgot-password" element={<ForgotPassword />} />
+//                             <Route path="/reset-password" element={<ResetPassword />} />
+                        
+//                             {/* --- ADMIN ROUTES (SECURED) --- */}
+//                             {/* ✅ Yahan humne Guard lagaya hai. Agar ADMIN nahi hai, to andar ke pages nahi khulenge */}
+//                             <Route path="/admin" element={
+//                                 <ProtectedRoute allowedRoles={["ADMIN"]}>
+//                                     <AdminLayout />
+//                                 </ProtectedRoute>
+//                             }>
+//                                 <Route index element={<AdminDashboard />} />
+//                                 <Route path="dashboard" element={<AdminDashboard />} />
+//                                 <Route path="add-product" element={<CreateProductLayout />} />
+//                                 <Route path="brands" element={<AdminBrands />} />
+//                                 <Route path="categories" element={<AdminCategories />} />
+//                             </Route>
+
+//                             {/* --- PUBLIC ROUTES --- */}
+//                             <Route path="/product/:id" element={<ProductDetailsPage />} />
+                            
+//                             {/* --- USER SECURED ROUTES --- */}
+//                             {/* ✅ Niche ke pages ke liye Login zaroori hai (USER, ADMIN, SELLER sab chalenge) */}
+                            
+//                             {/* ✅ 3. Cart Page Route Added */}
+//                             <Route path="/cart" element={
+//                                 <ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}>
+//                                     <CartPage />
+//                                 </ProtectedRoute>
+//                             } />
+
+//                             {/* ✅ 4. Checkout and Add Address Routes */}
+//                             <Route path="/checkout" element={
+//                                 <ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}>
+//                                     <CheckoutPage />
+//                                 </ProtectedRoute>
+//                             } />
+                            
+//                             <Route path="/add-address" element={
+//                                 <ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}>
+//                                     <AddAddressPage />
+//                                 </ProtectedRoute>
+//                             } />
+
+//                             {/* My Orders Page */}
+//                             <Route path="/my-orders" element={
+//                                 <ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}>
+//                                     <MyOrdersPage />
+//                                 </ProtectedRoute>
+//                             } />
+
+//                             {/* Profile Page */}
+//                             <Route path="/profile" element={
+//                                 <ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}>
+//                                     <ProfilePage />
+//                                 </ProtectedRoute>
+//                             } />
+                            
+//                         </Routes>
+//                     </div>
+//                 </Router>
+//             </CartProvider>
+//         </GoogleOAuthProvider>
+//     );
+// };
+
+// export default App;
+
+
+
+
+
+
+
+
+
+
+//update this code protect admin page from user  in upper code
+
+// import React, { useState } from 'react'; 
+// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// import { GoogleOAuthProvider } from '@react-oauth/google';
+
+// // Imports
+// import Navbar from './components/Navbar';
+// import Home from './pages/Home';
+// import Login from './pages/Auth/Login';
+// import Register from './pages/Auth/Register';
+// import ForgotPassword from './pages/Auth/ForgotPassword';
+// import ResetPassword from './pages/Auth/ResetPassword';
+
+// // --- NEW ADMIN IMPORTS ---
+// import AdminLayout from './layouts/AdminLayout';
+// import CreateProductLayout from './components/admin/CreateProductLayout';
+// import AdminBrands from './pages/admin/AdminBrands';
+// import AdminCategories from './pages/admin/AdminCategories';
+// import AdminDashboard from './pages/admin/AdminDashboard';
+
+// import ProductDetailsPage from './components/pages/user/ProductDetailsPage';
+
+// // ✅ 1. Cart Imports Added
+// import { CartProvider } from './components/pages/user/CartContext';
+// import CartPage from './components/pages/user/CartPage';
+
+// // ✅ 2. Checkout and Add Address Imports
+// import CheckoutPage from "./components/pages/user/CheckoutPage";
+// import AddAddressPage from "./components/pages/user/AddAddressPage";
+
+// //MyOrder page
+// import MyOrdersPage from "./components/pages/user/MyOrdersPage";
+
+// //Profile Page
+// import ProfilePage from "./components/pages/user/ProfilePage";
+
+// const App = () => {
+//     const [user, setUser] = useState(() => {
+//         return localStorage.getItem('username') || null;
+//     });
+
+//     const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+//     const handleLoginSuccess = (username, token) => {
+//         localStorage.setItem('token', token);
+//         localStorage.setItem('username', username);
+//         setUser(username);
+//     };
+
+//     const handleLogout = () => {
+//         localStorage.removeItem('token');
+//         localStorage.removeItem('username');
+//         setUser(null);
+//     };
+
+//     return (
+//         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+//             {/* ✅ 2. Wrap Application with CartProvider */}
+//             <CartProvider>
+//                 <Router>
+//                     <div className="App">
+//                         <Navbar user={user} onLogout={handleLogout} />
+                        
+//                         <Routes>
+//                             <Route path="/" element={<Home user={user} />} />
+                            
+//                             {/* Login Route */}
+//                             <Route path="/login" element={!user ? <Login onLoginSuccess={handleLoginSuccess} /> : <Navigate to="/" />} />
+                            
+//                             <Route path="/register" element={<Register />} />
+//                             <Route path="/forgot-password" element={<ForgotPassword />} />
+//                             <Route path="/reset-password" element={<ResetPassword />} />
+                        
+//                             {/* --- ADMIN ROUTES --- */}
+//                             <Route path="/admin" element={<AdminLayout />}>
+//                                 <Route index element={<AdminDashboard />} />
+//                                 <Route path="dashboard" element={<AdminDashboard />} />
+//                                 <Route path="add-product" element={<CreateProductLayout />} />
+//                                 <Route path="brands" element={<AdminBrands />} />
+//                                 <Route path="categories" element={<AdminCategories />} />
+//                             </Route>
+
+//                             {/* --- PUBLIC ROUTES --- */}
+//                             <Route path="/product/:id" element={<ProductDetailsPage />} />
+                            
+//                             {/* ✅ 3. Cart Page Route Added */}
+//                             <Route path="/cart" element={<CartPage />} />
+
+//                             {/* ✅ 4. Checkout and Add Address Routes */}
+//                             <Route path="/checkout" element={<CheckoutPage />} />
+//                             <Route path="/add-address" element={<AddAddressPage />} />
+
+//                             {/* My Orders Page */}
+//                             <Route path="/my-orders" element={<MyOrdersPage />} />
+
+//                             {/* Profile Page */}
+//                             <Route path="/profile" element={<ProfilePage />} />
+                            
+//                         </Routes>
+//                     </div>
+//                 </Router>
+//             </CartProvider>
+//         </GoogleOAuthProvider>
+//     );
+// };
+
+// export default App;
 
 
 
