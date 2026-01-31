@@ -2,102 +2,437 @@
 import api from '../services/api';
 import ProductCard from '../components/ProductCard';
 import './Home.css';
-// ✅ CHANGE: Added useLocation
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FaFilter, FaTimes } from 'react-icons/fa'; // Icons
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [activeTab, setActiveTab] = useState("All");
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
-  // ✅ CHANGE: Initialize location
   const location = useLocation();
 
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Filters State
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+
+  // Load Categories & Handle Navigation
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        const [prodRes, catRes] = await Promise.all([
-            api.get('/products'),
-            api.get('/categories/root')
-        ]);
-        setProducts(prodRes.data);
-        setCategories(catRes.data);
+        const res = await api.get('/categories/root');
+        setCategories(res.data);
+        
+        if (location.state && location.state.category) {
+            const catName = location.state.category;
+            const matchedCat = res.data.find(c => c.name === catName);
+            if (matchedCat) setSelectedCategory(matchedCat.id);
+        }
       } catch (err) {
-        console.error("Error fetching data:", err);
+        console.error("Cat Error:", err);
+      }
+    };
+    fetchCategories();
+  }, [location.state]);
+
+  // Fetch Products
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const searchParams = new URLSearchParams(location.search);
+        const searchQuery = searchParams.get('search');
+
+        if (searchQuery) {
+          const res = await api.get(`/products/search?keyword=${searchQuery}`);
+          setProducts(res.data);
+        } else {
+          let url = `/products/filter?sort=${sortBy}`;
+          if (selectedCategory) url += `&categoryId=${selectedCategory}`;
+          if (minPrice) url += `&minPrice=${minPrice}`;
+          if (maxPrice) url += `&maxPrice=${maxPrice}`;
+
+          const res = await api.get(url);
+          setProducts(res.data);
+        }
+      } catch (err) {
+        console.error("Product Error:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    const timeout = setTimeout(() => fetchProducts(), 200);
+    return () => clearTimeout(timeout);
+  }, [location.search, selectedCategory, sortBy, minPrice, maxPrice]);
 
-  // ✅ CHANGE: Check agar koi category lekar aaya hai
-  useEffect(() => {
-    if (location.state && location.state.category) {
-        setActiveTab(location.state.category);
-    }
-  }, [location]);
-
-  // ✅ NEW FILTER LOGIC (Bas ye add kiya hai)
-  // Agar "All" hai to sab dikhao, nahi to categoryName match karo
-  const filteredProducts = activeTab === "All" 
-    ? products 
-    : products.filter(prod => prod.categoryName === activeTab);
+  const clearFilters = () => {
+    setSelectedCategory(null);
+    setMinPrice("");
+    setMaxPrice("");
+    setSortBy("newest");
+    navigate('/'); 
+    setIsFilterOpen(false);
+  };
 
   return (
     <div className="home-container">
       
-      {/* Hero Banner (Same as before) */}
-      <div className="hero-banner">
-        <h1>Welcome to <span style={{color:'#f97316'}}>S-MART</span></h1>
-        <p>India's smartest shopping destination.</p>
-      </div>
+      {/* Overlay */}
+      <div className={`filter-overlay ${isFilterOpen ? 'open' : ''}`} onClick={() => setIsFilterOpen(false)}></div>
 
-      {/* Filter Tabs (Same as before) */}
-      <div className="filter-tabs">
-         <button 
-            className={`tab ${activeTab === "All" ? "active" : ""}`} 
-            onClick={() => setActiveTab("All")}
-         >
-            All
-         </button>
-         
-         {categories.map((cat) => (
-            <button 
-                key={cat.id} 
-                className={`tab ${activeTab === cat.name ? "active" : ""}`} 
-                onClick={() => setActiveTab(cat.name)}
-            >
+      {/* --- SIDEBAR DRAWER --- */}
+      <aside className={`filters-sidebar ${isFilterOpen ? 'open' : ''}`}>
+        <div className="filter-header">
+          <h3>Filters</h3>
+          <button className="close-btn" onClick={() => setIsFilterOpen(false)}><FaTimes /></button>
+        </div>
+
+        <div className="filter-section">
+            <button className="reset-btn" onClick={clearFilters}>CLEAR ALL</button>
+        </div>
+
+        <div className="filter-section">
+          <h4>Categories</h4>
+          <div className="category-list">
+            <label className="category-item">
+                <input type="radio" name="category" checked={selectedCategory === null} onChange={() => setSelectedCategory(null)}/>
+                All Categories
+            </label>
+            {categories.map((cat) => (
+              <label key={cat.id} className="category-item">
+                <input type="radio" name="category" checked={selectedCategory === cat.id} onChange={() => setSelectedCategory(cat.id)}/>
                 {cat.name}
-            </button>
-         ))}
-      </div>
+              </label>
+            ))}
+          </div>
+        </div>
 
-      {/* Product Grid */}
-      <div className="products-grid">
-        {loading ? (
-          <p>Loading...</p>
-        ) : filteredProducts.length > 0 ? (  // ✅ CHANGE: 'products' ki jagah 'filteredProducts' use kiya
-          filteredProducts.map((prod) => (
-            <div 
-                key={prod.id} 
-                onClick={() => navigate(`/product/${prod.id}`)} 
-                style={{cursor: 'pointer'}}
-            >
-                <ProductCard product={prod} />
+        <div className="filter-section">
+          <h4>Price Range (₹)</h4>
+          <div className="price-inputs">
+            <input type="number" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}/>
+            <input type="number" placeholder="Max" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+          </div>
+        </div>
+
+        <div className="filter-section">
+            <h4>Sort By</h4>
+            <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="newest">Newest First</option>
+                <option value="price_low">Price: Low to High</option>
+                <option value="price_high">Price: High to Low</option>
+            </select>
+        </div>
+      </aside>
+
+      {/* --- MAIN CONTENT --- */}
+      <main className="main-content">
+        
+        {/* 1. HERO BANNER (Top & Center) */}
+        <div className="hero-banner">
+            <h1>Welcome to <span style={{color:'#f97316'}}>S-MART</span></h1>
+            <p>India's smartest shopping destination.</p>
+        </div>
+
+        {/* 2. ACTION BAR (Filter - Count - Sort) */}
+        <div className="action-bar">
+            {/* Left: Filter Button */}
+            <button className="btn-toggle-filter" onClick={() => setIsFilterOpen(true)}>
+                <FaFilter /> Filters
+            </button>
+
+            {/* Center: Count */}
+            <div className="results-info">
+                Showing <span>{products.length}</span> Products
             </div>
-          ))
-        ) : (
-          <div className="no-products">No products found in {activeTab}.</div>
-        )}
-      </div>
+
+            {/* Right: Quick Sort */}
+            <select className="quick-sort" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="newest">Sort by: Newest</option>
+                <option value="price_low">Price: Low to High</option>
+                <option value="price_high">Price: High to Low</option>
+            </select>
+        </div>
+
+        {/* 3. PRODUCT GRID */}
+        <div className="products-grid">
+          {loading ? (
+            <p style={{textAlign:'center', width:'100%', gridColumn: '1/-1', padding:'50px'}}>Loading products...</p>
+          ) : products.length > 0 ? (
+            products.map((prod) => (
+              <div key={prod.id} onClick={() => navigate(`/product/${prod.id}`)} style={{cursor: 'pointer'}}>
+                  <ProductCard product={prod} />
+              </div>
+            ))
+          ) : (
+            <div className="no-products">
+               <h3>No Products Found 😔</h3>
+               <p>Try adjusting your filters.</p>
+            </div>
+          )}
+        </div>
+
+      </main>
     </div>
   );
 };
 
 export default Home;
+
+
+
+
+
+
+
+
+
+
+//ADDING FILTER LOGIC IN UPPER CODE 
+// import React, { useEffect, useState } from 'react';
+// import api from '../services/api';
+// import ProductCard from '../components/ProductCard';
+// import './Home.css';
+// import { useNavigate, useLocation } from 'react-router-dom';
+
+// const Home = () => {
+//   const [products, setProducts] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [activeTab, setActiveTab] = useState("All");
+//   const [loading, setLoading] = useState(true);
+
+//   const navigate = useNavigate();
+//   const location = useLocation();
+
+//   // ✅ CORE LOGIC CHANGE: Search vs Normal Fetch
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true); // Load shuru
+//       try {
+//         // 1. Categories hamesha fetch karni hain
+//         const catRes = await api.get('/categories/root');
+//         setCategories(catRes.data);
+
+//         // 2. Check karo: Kya URL me 'search' keyword hai?
+//         const searchParams = new URLSearchParams(location.search);
+//         const searchQuery = searchParams.get('search');
+
+//         let prodRes;
+
+//         if (searchQuery) {
+//             // 🔍 CASE A: Search Query hai -> Search API call karo
+//             // console.log("Searching for:", searchQuery); // Debugging
+//             prodRes = await api.get(`/products/search?keyword=${searchQuery}`);
+            
+//             // Search karte waqt Tab ko "All" kar do taaki products dikhein
+//             setActiveTab("All"); 
+//         } else {
+//             // 📦 CASE B: Search nahi hai -> Normal All Products API call karo
+//             prodRes = await api.get('/products');
+//         }
+
+//         setProducts(prodRes.data);
+
+//       } catch (err) {
+//         console.error("Error fetching data:", err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, [location.search]); // ✅ IMPORTANT: Jab URL (?search=...) badlega tab ye chalega
+
+//   // ✅ Check agar koi category lekar aaya hai (Sidebar se navigation)
+//   useEffect(() => {
+//     if (location.state && location.state.category) {
+//         setActiveTab(location.state.category);
+//     }
+//   }, [location]);
+
+//   // ✅ FILTER LOGIC
+//   const filteredProducts = activeTab === "All" 
+//     ? products 
+//     : products.filter(prod => prod.categoryName === activeTab);
+
+//   return (
+//     <div className="home-container">
+      
+//       {/* Hero Banner */}
+//       <div className="hero-banner">
+//         <h1>Welcome to <span style={{color:'#f97316'}}>S-MART</span></h1>
+//         <p>India's smartest shopping destination.</p>
+//       </div>
+
+//       {/* Filter Tabs */}
+//       <div className="filter-tabs">
+//          <button 
+//             className={`tab ${activeTab === "All" ? "active" : ""}`} 
+//             onClick={() => setActiveTab("All")}
+//          >
+//             All
+//          </button>
+         
+//          {categories.map((cat) => (
+//             <button 
+//                 key={cat.id} 
+//                 className={`tab ${activeTab === cat.name ? "active" : ""}`} 
+//                 onClick={() => setActiveTab(cat.name)}
+//             >
+//                 {cat.name}
+//             </button>
+//          ))}
+//       </div>
+
+//       {/* Product Grid */}
+//       <div className="products-grid">
+//         {loading ? (
+//           <p>Loading...</p>
+//         ) : filteredProducts.length > 0 ? (
+//           filteredProducts.map((prod) => (
+//             <div 
+//                 key={prod.id} 
+//                 onClick={() => navigate(`/product/${prod.id}`)} 
+//                 style={{cursor: 'pointer'}}
+//             >
+//                 <ProductCard product={prod} />
+//             </div>
+//           ))
+//         ) : (
+//           <div className="no-products">
+//              {/* Thoda smart message: Agar search kiya tha to 'No results', nahi to normal msg */}
+//              {new URLSearchParams(location.search).get('search') 
+//                 ? `No results found for "${new URLSearchParams(location.search).get('search')}"`
+//                 : `No products found in ${activeTab}.`
+//              }
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Home;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//activating search logic in upper code 
+
+//  import React, { useEffect, useState } from 'react';
+// import api from '../services/api';
+// import ProductCard from '../components/ProductCard';
+// import './Home.css';
+// // ✅ CHANGE: Added useLocation
+// import { useNavigate, useLocation } from 'react-router-dom';
+
+// const Home = () => {
+//   const [products, setProducts] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [activeTab, setActiveTab] = useState("All");
+//   const [loading, setLoading] = useState(true);
+
+//   const navigate = useNavigate();
+//   // ✅ CHANGE: Initialize location
+//   const location = useLocation();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const [prodRes, catRes] = await Promise.all([
+//             api.get('/products'),
+//             api.get('/categories/root')
+//         ]);
+//         setProducts(prodRes.data);
+//         setCategories(catRes.data);
+//       } catch (err) {
+//         console.error("Error fetching data:", err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, []);
+
+//   // ✅ CHANGE: Check agar koi category lekar aaya hai
+//   useEffect(() => {
+//     if (location.state && location.state.category) {
+//         setActiveTab(location.state.category);
+//     }
+//   }, [location]);
+
+//   // ✅ NEW FILTER LOGIC (Bas ye add kiya hai)
+//   // Agar "All" hai to sab dikhao, nahi to categoryName match karo
+//   const filteredProducts = activeTab === "All" 
+//     ? products 
+//     : products.filter(prod => prod.categoryName === activeTab);
+
+//   return (
+//     <div className="home-container">
+      
+//       {/* Hero Banner (Same as before) */}
+//       <div className="hero-banner">
+//         <h1>Welcome to <span style={{color:'#f97316'}}>S-MART</span></h1>
+//         <p>India's smartest shopping destination.</p>
+//       </div>
+
+//       {/* Filter Tabs (Same as before) */}
+//       <div className="filter-tabs">
+//          <button 
+//             className={`tab ${activeTab === "All" ? "active" : ""}`} 
+//             onClick={() => setActiveTab("All")}
+//          >
+//             All
+//          </button>
+         
+//          {categories.map((cat) => (
+//             <button 
+//                 key={cat.id} 
+//                 className={`tab ${activeTab === cat.name ? "active" : ""}`} 
+//                 onClick={() => setActiveTab(cat.name)}
+//             >
+//                 {cat.name}
+//             </button>
+//          ))}
+//       </div>
+
+//       {/* Product Grid */}
+//       <div className="products-grid">
+//         {loading ? (
+//           <p>Loading...</p>
+//         ) : filteredProducts.length > 0 ? (  // ✅ CHANGE: 'products' ki jagah 'filteredProducts' use kiya
+//           filteredProducts.map((prod) => (
+//             <div 
+//                 key={prod.id} 
+//                 onClick={() => navigate(`/product/${prod.id}`)} 
+//                 style={{cursor: 'pointer'}}
+//             >
+//                 <ProductCard product={prod} />
+//             </div>
+//           ))
+//         ) : (
+//           <div className="no-products">No products found in {activeTab}.</div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Home;
 
 
 

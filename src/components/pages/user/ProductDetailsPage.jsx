@@ -99,7 +99,7 @@ const ProductDetailsPage = () => {
     }
     // Add item to global cart
     addToCart(product, selectedVariant, 1);
-    alert("Item added to cart successfully!");
+    // alert("Item added to cart successfully!");
   };
 
   if (loading) return <div className="pdp-page-wrapper" style={{textAlign:'center', padding:'5rem', fontSize:'1.2rem'}}>Loading...</div>;
