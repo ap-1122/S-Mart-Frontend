@@ -1,16 +1,16 @@
- /* Overlay (Background dim karne ke liye) */
+ /* Overlay */
 .sidebar-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-    z-index: 999; /* Navbar ke upar */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1001; /* Navbar (1000) se upar */
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Sidebar Drawer (Right side se aayega) */
+/* Sidebar Drawer */
 .sidebar-drawer {
     position: fixed;
     top: 0;
@@ -18,83 +18,96 @@
     width: 280px;
     height: 100%;
     background: white;
-    z-index: 1000;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    z-index: 1002;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
     animation: slideIn 0.3s ease-out;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Header Section */
+/* Header */
 .sidebar-header {
-    background-color: #0f172a; /* Navbar wala dark color */
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
     color: white;
-    padding: 20px;
+    padding: 25px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: 3px solid #f97316; /* Orange Line */
+    border-bottom: 4px solid #f97316;
 }
 
 .sidebar-user-icon {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 10px;
+    color: #cbd5e1;
 }
 
 .sidebar-username {
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-align: center;
+    line-height: 1.4;
 }
 
-/* Menu Links */
+/* Menu */
 .sidebar-menu {
     flex: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    overflow-y: auto;
 }
 
 .sidebar-link {
     text-decoration: none;
-    color: #333;
-    padding: 12px 15px;
+    color: #334155;
+    padding: 12px 18px;
     font-size: 1rem;
     font-weight: 500;
     border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: all 0.2s;
-    cursor: pointer; /* Pointer add kiya */
+    gap: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .sidebar-link:hover {
-    background-color: #f3f4f6;
-    color: #f97316; /* Orange on hover */
-    padding-left: 20px; /* Slight movement effect */
+    background-color: #f8fafc;
+    color: #f97316;
+    border-color: #e2e8f0;
+    transform: translateX(5px);
 }
 
-/* 🔥 NEW: Admin Special Button Style */
+/* 🔥 Admin/Seller Button */
 .admin-special-link {
-    background-color: #fff7ed; /* Light Orange Background */
-    color: #ea580c; /* Dark Orange Text */
-    border: 1px solid #fed7aa; /* Orange Border */
-    font-weight: 700; /* Thoda mota text */
+    background-color: #fff7ed;
+    color: #ea580c;
+    border: 1px solid #fed7aa;
+    font-weight: 700;
 }
 
 .admin-special-link:hover {
-    background-color: #ffedd5 !important; /* Hover par thoda dark orange */
+    background-color: #ffedd5 !important;
     color: #c2410c !important;
-    padding-left: 15px !important; /* Movement kam rakhi hai iski */
+    transform: translateX(0); /* Isme movement nahi chahiye */
+    box-shadow: 0 2px 5px rgba(234, 88, 12, 0.1);
 }
 
-/* Footer (Logout) */
+/* 👑 Prime Button Style (Optional - agar alag dikhana hai) */
+.prime-link {
+    background: linear-gradient(90deg, #fff 0%, #fff7ed 100%);
+    border: 1px solid #ffedd5;
+}
+
+/* Footer */
 .sidebar-footer {
     padding: 20px;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
 }
 
 .btn-logout-sidebar {

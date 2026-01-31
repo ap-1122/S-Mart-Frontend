@@ -27,6 +27,8 @@ import CheckoutPage from "./components/pages/user/CheckoutPage";
 import AddAddressPage from "./components/pages/user/AddAddressPage";
 import MyOrdersPage from "./components/pages/user/MyOrdersPage";
 import ProfilePage from "./components/pages/user/ProfilePage";
+// ... Imports
+ import SubscriptionPage from './components/pages/user/SubscriptionPage';
 
 const App = () => {
     const [user, setUser] = useState(() => {
@@ -122,6 +124,8 @@ const App = () => {
                             <Route path="/my-orders" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><MyOrdersPage /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute allowedRoles={["USER", "ADMIN", "SELLER"]}><ProfilePage /></ProtectedRoute>} />
                             
+                           {/* ✅ NEW: Prime Subscription Page */}
+                            <Route path="/prime" element={<SubscriptionPage />} />
 
 
                         </Routes>

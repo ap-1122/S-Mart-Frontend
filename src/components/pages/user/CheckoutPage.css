@@ -1,4 +1,4 @@
-/* Wrapper & Container */
+ /* Wrapper & Container */
 .checkout-wrapper {
   background-color: #f3f4f6;
   min-height: 100vh;
@@ -130,19 +130,6 @@
 .pay-title { font-weight: 600; color: #111827; }
 .pay-desc { font-size: 0.85rem; color: #6b7280; }
 
-/* Disabled Styles (UPI/Card) */
-.disabled-option {
-  background-color: #f3f4f6;
-  border-color: #e5e7eb;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.disabled-option .pay-status {
-  font-size: 0.75rem;
-  color: #dc2626; /* Red warning text */
-  font-weight: 600;
-}
-
 /* Right Side: Summary */
 .checkout-right {
   position: sticky;
@@ -173,6 +160,12 @@
   color: #111827;
 }
 
+/* ✅ PRIME STYLES ADDED HERE */
+.prime-row {
+    color: #16a34a; /* Green Color */
+    font-weight: 700;
+}
+
 .divider { border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
 .summary-total {
@@ -200,6 +193,18 @@
 
 .btn-place-order:hover {
   background: #ea580c;
+}
+
+/* ✅ PRIME NUDGE STYLE */
+.prime-nudge {
+    margin-top: 15px;
+    background-color: #fff7ed;
+    color: #ea580c;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    border: 1px solid #fed7aa;
 }
 
 .loading-text {
