@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { Box, Button, Typography, MenuItem, Select, FormControl, InputLabel, Link } from "@mui/material"; // Link import kiya
 import api from "../../../services/api"; 
 import { useProduct } from "../../../services/ProductContext";
 
-export default function CategoryBrandStep({ onNext }) {
+// ✅ 1. userRole prop receive kiya (Layout se aa raha hai)
+export default function CategoryBrandStep({ onNext, userRole }) {
   const { productState, setProductState } = useProduct();
   const [categories, setCategories] = useState([]);
   const [selectedCatId, setSelectedCatId] = useState("");
 
-  // 1. Load Categories from Backend
   useEffect(() => {
-    api.get("/categories/root") // Sirf Root categories lao (e.g. Electronics, Fashion)
+    api.get("/categories/root")
       .then(res => setCategories(res.data))
       .catch(err => console.error("Category Load Error", err));
   }, []);
@@ -20,7 +20,6 @@ export default function CategoryBrandStep({ onNext }) {
       alert("Please select a category");
       return;
     }
-    // Context me save karo
     setProductState({ ...productState, categoryId: selectedCatId });
     onNext(); 
   };
@@ -29,7 +28,8 @@ export default function CategoryBrandStep({ onNext }) {
     <Box>
       <Typography variant="h5" gutterBottom color="primary">Step 1: Select Category</Typography>
       
-      <FormControl fullWidth sx={{ mb: 3 }}>
+      {/* Category Dropdown */}
+      <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel>Choose Category</InputLabel>
         <Select
           value={selectedCatId}
@@ -43,18 +43,107 @@ export default function CategoryBrandStep({ onNext }) {
           ))}
         </Select>
       </FormControl>
+
+      {/* 🚀 ADMIN ONLY FEATURE: Create New Category Shortcut */}
+      {/* Seller ko ye nahi dikhega */}
+      {userRole === 'ADMIN' && (
+        <Box sx={{ mb: 3, textAlign: 'right' }}>
+           <Typography variant="caption" sx={{ mr: 1 }}>Not found?</Typography>
+           <Button 
+             size="small" 
+             variant="outlined" 
+             onClick={() => window.open('/admin/categories', '_blank')} // New tab me kholega
+           >
+             ➕ Create New Category
+           </Button>
+        </Box>
+      )}
       
       <Button 
         variant="contained" 
         color="warning" 
         onClick={handleConfirm}
         disabled={!selectedCatId}
+        fullWidth // Thoda design acha lagega
       >
         Confirm & Continue
       </Button>
     </Box>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { useState, useEffect } from "react";
+// import { Box, Button, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+// import api from "../../../services/api"; 
+// import { useProduct } from "../../../services/ProductContext";
+
+// export default function CategoryBrandStep({ onNext }) {
+//   const { productState, setProductState } = useProduct();
+//   const [categories, setCategories] = useState([]);
+//   const [selectedCatId, setSelectedCatId] = useState("");
+
+//   // 1. Load Categories from Backend
+//   useEffect(() => {
+//     api.get("/categories/root") // Sirf Root categories lao (e.g. Electronics, Fashion)
+//       .then(res => setCategories(res.data))
+//       .catch(err => console.error("Category Load Error", err));
+//   }, []);
+
+//   const handleConfirm = () => {
+//     if (!selectedCatId) {
+//       alert("Please select a category");
+//       return;
+//     }
+//     // Context me save karo
+//     setProductState({ ...productState, categoryId: selectedCatId });
+//     onNext(); 
+//   };
+
+//   return (
+//     <Box>
+//       <Typography variant="h5" gutterBottom color="primary">Step 1: Select Category</Typography>
+      
+//       <FormControl fullWidth sx={{ mb: 3 }}>
+//         <InputLabel>Choose Category</InputLabel>
+//         <Select
+//           value={selectedCatId}
+//           label="Choose Category"
+//           onChange={(e) => setSelectedCatId(e.target.value)}
+//         >
+//           {categories.map((cat) => (
+//             <MenuItem key={cat.id} value={cat.id}>
+//               {cat.name}
+//             </MenuItem>
+//           ))}
+//         </Select>
+//       </FormControl>
+      
+//       <Button 
+//         variant="contained" 
+//         color="warning" 
+//         onClick={handleConfirm}
+//         disabled={!selectedCatId}
+//       >
+//         Confirm & Continue
+//       </Button>
+//     </Box>
+//   );
+// }
 
 
 
