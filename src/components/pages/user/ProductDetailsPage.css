@@ -204,8 +204,6 @@
     color: #c2410c;
 }
 
-
-
 /* Buttons */
 .pdp-actions { display: flex; gap: 1.5rem; margin-top: 3rem; }
 .btn-action {
@@ -241,9 +239,6 @@
 .spec-table th, .spec-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e5e7eb; }
 .spec-table th { background: #f9fafb; font-weight: 700; width: 40%; color: #4b5563; }
 
-
-
-
 .pdp-oos-overlay {
     position: absolute;
     top: 10px;
@@ -256,4 +251,24 @@
     font-size: 0.85rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     z-index: 10;
+}
+
+ /* ✅ NEW: Reviews Section Styling */
+.pdp-reviews-wrapper {
+    margin-top: 5rem;
+    padding: 3rem;
+    background-color: #ffffff; /* White card look */
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Slight shadow */
+    border: 1px solid #e2e8f0;
+}
+
+/* Review Form Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reviews-wrapper {
+    animation: fadeIn 0.5s ease-out;
 }

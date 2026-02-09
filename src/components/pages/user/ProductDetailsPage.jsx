@@ -2,11 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "./ProductDetailsPage.css";
-// ✅ 1. Import useCart Hook
- 
 import { useCart } from "./CartContext.jsx";
-
-
+import ProductReviews from './ProductReviews.jsx'; // ✅ NEW IMPORT ADDED
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -23,7 +20,7 @@ const ProductDetailsPage = () => {
   const [displayImages, setDisplayImages] = useState([]);
   const [mainImage, setMainImage] = useState("");
 
-  // ✅ 2. Get addToCart function from Context
+  // 2. Get addToCart function from Context
   const { addToCart } = useCart();
 
   // --- FIX: Function ko useEffect se PEHLE define kiya ---
@@ -91,7 +88,7 @@ const ProductDetailsPage = () => {
       }
   };
 
-  // ✅ 3. Handle Add To Cart Click
+  // 3. Handle Add To Cart Click
   const handleAddToCart = () => {
     if (!selectedVariant) {
         alert("This combination is not available. Please select another.");
@@ -99,7 +96,6 @@ const ProductDetailsPage = () => {
     }
     // Add item to global cart
     addToCart(product, selectedVariant, 1);
-    // alert("Item added to cart successfully!");
   };
 
   if (loading) return <div className="pdp-page-wrapper" style={{textAlign:'center', padding:'5rem', fontSize:'1.2rem'}}>Loading...</div>;
@@ -208,7 +204,6 @@ const ProductDetailsPage = () => {
                     disabled={isOutOfStock || isUnavailable}
                     className="btn-action btn-cart"
                     style={(isOutOfStock || isUnavailable) ? {borderColor:'#d1d5db', color:'#9ca3af', cursor:'not-allowed'} : {}}
-                    // ✅ 4. Attach Click Handler
                     onClick={handleAddToCart}
                 >
                     Add to Cart
@@ -250,12 +245,294 @@ const ProductDetailsPage = () => {
             </div>
         </div>
 
+        {/* ✅ NEW SECTION: CUSTOMER REVIEWS */}
+        <div className="pdp-reviews-wrapper">
+            <ProductReviews productId={id} />
+        </div>
+
       </div>
     </div>
   );
 };
 
 export default ProductDetailsPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//adding review to product details page
+
+// import React, { useState, useEffect, useMemo } from "react";
+// import { useParams, Link } from "react-router-dom";
+// import axios from "axios";
+// import "./ProductDetailsPage.css";
+// // ✅ 1. Import useCart Hook
+ 
+// import { useCart } from "./CartContext.jsx";
+
+
+
+// const ProductDetailsPage = () => {
+//   const { id } = useParams();
+//   const [product, setProduct] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   // 1. User ne abhi kya select kiya hai
+//   const [selectedAttributes, setSelectedAttributes] = useState({});
+  
+//   // 2. Jo variant final match hua
+//   const [selectedVariant, setSelectedVariant] = useState(null);
+  
+//   // 3. Images State
+//   const [displayImages, setDisplayImages] = useState([]);
+//   const [mainImage, setMainImage] = useState("");
+
+//   // ✅ 2. Get addToCart function from Context
+//   const { addToCart } = useCart();
+
+//   // --- FIX: Function ko useEffect se PEHLE define kiya ---
+//   const updateImagesForVariant = (prodData, variant) => {
+//       if (!prodData || !prodData.images) return;
+//       const specificImages = prodData.images.filter(img => img.variantId === variant?.id);
+//       const commonImages = prodData.images.filter(img => img.variantId === null);
+//       const finalImages = specificImages.length > 0 ? specificImages : commonImages;
+//       setDisplayImages(finalImages);
+//       if(finalImages.length > 0) setMainImage(finalImages[0].imageUrl);
+//   };
+
+//   useEffect(() => {
+//     const fetchProduct = async () => {
+//       try {
+//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const data = response.data;
+//         setProduct(data);
+
+//         // --- INITIAL SETUP ---
+//         if (data.variants && data.variants.length > 0) {
+//             const defaultVariant = data.variants.find(v => v.stock > 0) || data.variants[0];
+//             setSelectedAttributes(defaultVariant.attributes);
+//             setSelectedVariant(defaultVariant);
+//             updateImagesForVariant(data, defaultVariant);
+//         } else {
+//             setDisplayImages(data.images || []);
+//             if(data.images?.length > 0) setMainImage(data.images[0].imageUrl);
+//         }
+
+//         setLoading(false);
+//       } catch (error) {
+//         console.error("Error:", error);
+//         setLoading(false);
+//       }
+//     };
+//     fetchProduct();
+//   }, [id]);
+
+//   // --- LOGIC 1: Grouping Attributes ---
+//   const groupedAttributes = useMemo(() => {
+//     if (!product?.variants) return {};
+//     const groups = {};
+//     product.variants.forEach(variant => {
+//         Object.entries(variant.attributes).forEach(([key, value]) => {
+//             if (!groups[key]) groups[key] = new Set();
+//             groups[key].add(value);
+//         });
+//     });
+//     return groups; 
+//   }, [product]);
+
+//   // --- LOGIC 2: Handle Selection ---
+//   const handleAttributeClick = (key, value) => {
+//       const newAttributes = { ...selectedAttributes, [key]: value };
+//       setSelectedAttributes(newAttributes);
+
+//       const foundVariant = product.variants.find(v => {
+//           return Object.entries(newAttributes).every(([k, val]) => v.attributes[k] === val);
+//       });
+
+//       setSelectedVariant(foundVariant || null);
+//       if (foundVariant) {
+//           updateImagesForVariant(product, foundVariant);
+//       }
+//   };
+
+//   // ✅ 3. Handle Add To Cart Click
+//   const handleAddToCart = () => {
+//     if (!selectedVariant) {
+//         alert("This combination is not available. Please select another.");
+//         return;
+//     }
+//     // Add item to global cart
+//     addToCart(product, selectedVariant, 1);
+//     // alert("Item added to cart successfully!");
+//   };
+
+//   if (loading) return <div className="pdp-page-wrapper" style={{textAlign:'center', padding:'5rem', fontSize:'1.2rem'}}>Loading...</div>;
+//   if (!product) return <div className="pdp-page-wrapper" style={{textAlign:'center', padding:'5rem', color:'red'}}>Product Not Found</div>;
+
+//   const isUnavailable = !selectedVariant;
+//   const isOutOfStock = selectedVariant && selectedVariant.stock === 0;
+
+//   return (
+//     <div className="pdp-page-wrapper">
+//       <div className="pdp-container">
+        
+//         {/* Breadcrumbs */}
+//         <div className="pdp-breadcrumbs">
+//             <Link to="/" className="pdp-breadcrumb-link">Home</Link>
+//             <span className="pdp-breadcrumb-separator">/</span>
+//             <Link to="/" state={{ category: product.categoryName }} className="pdp-breadcrumb-link">
+//                 {product.categoryName}
+//             </Link>
+//             <span className="pdp-breadcrumb-separator">/</span>
+//             <span className="pdp-breadcrumb-current">{product.name}</span>
+//         </div>
+
+//         <div className="pdp-grid">
+          
+//           {/* --- LEFT: Filtered Images --- */}
+//           <div className="pdp-image-section">
+//             <div className="pdp-main-image-box">
+//               <img 
+//                 src={mainImage || "https://via.placeholder.com/400"} 
+//                 className="pdp-main-img" 
+//                 alt="Main" 
+//               />
+//               {(isOutOfStock || isUnavailable) && (
+//                   <div className="pdp-oos-overlay">
+//                       {isUnavailable ? "UNAVAILABLE" : "OUT OF STOCK"}
+//                   </div>
+//               )}
+//             </div>
+//             <div className="pdp-thumbnails">
+//               {displayImages.map((img) => (
+//                 <div 
+//                   key={img.id}
+//                   className={`pdp-thumb-box ${mainImage === img.imageUrl ? "active" : ""}`}
+//                   onMouseEnter={() => setMainImage(img.imageUrl)}
+//                 >
+//                   <img src={img.imageUrl} className="pdp-thumb-img" alt="thumb"/>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+
+//           {/* --- RIGHT: Details & Selection --- */}
+//           <div className="pdp-info-section">
+//             <span className="pdp-brand-label">{product.brandName}</span>
+//             <h1 className="pdp-title">{product.name}</h1>
+
+//             {/* Price Block */}
+//             <div className="pdp-price-block" style={(isOutOfStock || isUnavailable) ? {borderLeftColor:'#9ca3af', opacity: 0.9} : {}}>
+//                 <div className="pdp-price-flex">
+//                     <span className="pdp-price" style={(isOutOfStock || isUnavailable) ? {color:'#6b7280'} : {}}>
+//                         ₹ {selectedVariant ? selectedVariant.price : "---"}
+//                     </span>
+                    
+//                     {!isUnavailable && (
+//                         <span className={`stock-status ${isOutOfStock ? 'out-stock' : 'in-stock'}`}>
+//                             {isOutOfStock ? "Out of Stock" : "In Stock"}
+//                         </span>
+//                     )}
+//                 </div>
+//                 <p className="pdp-tax-note">Inclusive of all taxes</p>
+//             </div>
+
+//             {/* Grouped Attribute Selectors */}
+//             <div className="pdp-var-section">
+//                 {Object.keys(groupedAttributes).map((attrKey) => (
+//                     <div key={attrKey} style={{marginBottom:'20px'}}>
+//                         <h3 className="pdp-var-label">{attrKey}: <span style={{fontWeight:'normal', color:'#666'}}>{selectedAttributes[attrKey]}</span></h3>
+//                         <div className="pdp-var-options">
+//                             {[...groupedAttributes[attrKey]].map((val) => (
+//                                 <button
+//                                     key={val}
+//                                     className={`pdp-var-btn ${selectedAttributes[attrKey] === val ? "selected" : ""}`}
+//                                     onClick={() => handleAttributeClick(attrKey, val)}
+//                                 >
+//                                     {val}
+//                                 </button>
+//                             ))}
+//                         </div>
+//                     </div>
+//                 ))}
+//             </div>
+
+//             {/* Actions */}
+//             <div className="pdp-actions">
+//                 <button 
+//                     disabled={isOutOfStock || isUnavailable}
+//                     className="btn-action btn-buy"
+//                     style={(isOutOfStock || isUnavailable) ? {background:'#d1d5db', cursor:'not-allowed', boxShadow:'none'} : {}}
+//                     onClick={() => alert("Proceeding to Checkout...")}
+//                 >
+//                     {(isOutOfStock || isUnavailable) ? "Notify Me" : "Buy Now"}
+//                 </button>
+                
+//                 <button 
+//                     disabled={isOutOfStock || isUnavailable}
+//                     className="btn-action btn-cart"
+//                     style={(isOutOfStock || isUnavailable) ? {borderColor:'#d1d5db', color:'#9ca3af', cursor:'not-allowed'} : {}}
+//                     // ✅ 4. Attach Click Handler
+//                     onClick={handleAddToCart}
+//                 >
+//                     Add to Cart
+//                 </button>
+//             </div>
+
+//             {isUnavailable && (
+//                 <p style={{marginTop:'15px', color:'#dc2626', fontWeight:'500'}}>
+//                     * This combination is not available. Please try another.
+//                 </p>
+//             )}
+
+//           </div>
+//         </div>
+
+//         {/* Bottom Section */}
+//         <div className="pdp-details-grid">
+//             <div>
+//                 <h2 className="pdp-section-head">About this item</h2>
+//                 {product.features && product.features.length > 0 ? (
+//                     <ul style={{paddingLeft:'1.2rem', lineHeight:'1.8', color:'#374151'}}>
+//                         {product.features.map((f, i) => <li key={i}>{f}</li>)}
+//                     </ul>
+//                 ) : (
+//                     <p style={{lineHeight:'1.8', color:'#374151'}}>{product.description}</p>
+//                 )}
+//             </div>
+//             <div>
+//                 <h2 className="pdp-section-head">Specifications</h2>
+//                 <table className="spec-table">
+//                     <tbody>
+//                         <tr><th>Brand</th><td>{product.brandName}</td></tr>
+//                         <tr><th>Model</th><td>{product.name}</td></tr>
+//                         {product.specifications && Object.entries(product.specifications).map(([key, val]) => (
+//                             <tr key={key}><th style={{textTransform:'capitalize'}}>{key}</th><td>{val}</td></tr>
+//                         ))}
+//                     </tbody>
+//                 </table>
+//             </div>
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductDetailsPage;
 
 
 
