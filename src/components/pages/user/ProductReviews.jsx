@@ -1,3 +1,5 @@
+ // this is internal reviw page connected with product detail page 
+ 
  import React, { useEffect, useState } from 'react';
 import { Box, Typography, Rating, Button, TextField, Avatar, Divider, LinearProgress } from '@mui/material';
 import api from '../../../services/api';
