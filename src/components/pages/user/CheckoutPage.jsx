@@ -122,7 +122,7 @@ const CheckoutPage = () => {
 
             // Step B: Open Popup
             const options = {
-                key: "YOUR_RAZORPAY_KEY_ID", // ⚠️ Check Key
+                key: "rzp_test_S6dcpSwZYbmUEx", // ⚠️ Check Key
                 amount: finalAmount * 100, // ✅ CHANGE: Convert Final Amount to Paise
                 currency: currency,
                 name: "S-MART",
@@ -153,7 +153,7 @@ const CheckoutPage = () => {
                 prefill: {
                     name: "S-MART User",
                     email: "user@example.com",
-                    contact: "9999999999"
+                    contact: "9876512345"
                 },
                 theme: {
                     color: "#f97316"
