@@ -12,7 +12,7 @@ const UserHomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/products");
+        const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/products");
         setProducts(response.data);
         setLoading(false);
       } catch (error) {

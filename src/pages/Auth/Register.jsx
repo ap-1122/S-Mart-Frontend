@@ -22,7 +22,7 @@ const Register = () => {
         console.log("Sending Data:", form); // Console me dekho kya ja raha hai
 
         try {
-            const res = await axios.post("http://localhost:8080/auth/register", form);
+            const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/register", form);
             console.log("Server Response:", res);
             alert("Registration Successful! Please Login.");
             navigate('/login');

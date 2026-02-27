@@ -118,7 +118,7 @@ export default function ProductSpecificationStep({ onNext }) {
 //   useEffect(() => {
 //     if (!productId) return;
 //     axios
-//       .get(`http://localhost:8080/api/products/${productId}/specifications`)
+//       .get(`https://s-mart-backend-m8zo.onrender.com/api/products/${productId}/specifications`)
 //       .then((res) => {
 //         if (res.data?.length > 0) {
 //           setSpecs(res.data.map((s) => ({ specKey: s.specKey, specValue: s.specValue })));
@@ -144,7 +144,7 @@ export default function ProductSpecificationStep({ onNext }) {
 //     if (validSpecs.length === 0) return alert("Add at least one specification");
     
 //     try {
-//       await axios.post(`http://localhost:8080/api/products/${productId}/specifications/bulk`, validSpecs);
+//       await axios.post(`https://s-mart-backend-m8zo.onrender.com/api/products/${productId}/specifications/bulk`, validSpecs);
 //       alert("Specifications saved");
 //       onNext();
 //     } catch (error) {

@@ -25,7 +25,7 @@ const ProfilePage = () => {
       return;
     }
     try {
-      const response = await axios.get("http://localhost:8080/api/users/profile", {
+      const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/users/profile", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(response.data);
@@ -42,7 +42,7 @@ const ProfilePage = () => {
   const handleUpdate = async () => {
     const token = localStorage.getItem("token");
     try {
-      await axios.put("http://localhost:8080/api/users/profile", formData, {
+      await axios.put("https://s-mart-backend-m8zo.onrender.com/api/users/profile", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("Profile Updated Successfully!");

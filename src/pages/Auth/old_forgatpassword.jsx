@@ -59,7 +59,7 @@
 //         e.preventDefault();
 //         try {
 //             const payload = method === 'email' ? { email: val } : { phoneNumber: val };
-//             await axios.post("http://localhost:8080/auth/send-otp", payload);
+//             await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/send-otp", payload);
 //             alert(`Code sent to ${val}!`);
 //             setStep(2); // Step 2 par bhejo (Sirf OTP mangne ke liye)
 //             setTimeLeft(600);
@@ -73,7 +73,7 @@
 //         e.preventDefault();
 //         try {
 //             // Hum verify-otp call karenge check karne ke liye ki OTP sahi hai ya nahi
-//             await axios.post("http://localhost:8080/auth/verify-otp", { 
+//             await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/verify-otp", { 
 //                 email: method === 'email' ? val : null,
 //                 phoneNumber: method === 'phone' ? val : null,
 //                 otp: otp
@@ -99,7 +99,7 @@
 
 //         try {
 //             // Final API call to change password
-//             await axios.post("http://localhost:8080/auth/reset-password", { 
+//             await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/reset-password", { 
 //                 email: method === 'email' ? val : null,
 //                 phoneNumber: method === 'phone' ? val : null,
 //                 otp: otp, // OTP wapas bhejna padega security ke liye
@@ -208,7 +208,7 @@
 //         e.preventDefault();
 //         try {
 //             const payload = method === 'email' ? { email: val } : { phoneNumber: val };
-//             await axios.post("http://localhost:8080/auth/forgot-password", payload);
+//             await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/forgot-password", payload);
 //             alert(`Sent to ${method}!`);
 //             if(method === 'phone') setStep(2);
 //         } catch (err) { alert("Failed: " + (err.response?.data || "Error")); }
@@ -217,7 +217,7 @@
 //     const handleReset = async (e) => {
 //         e.preventDefault();
 //         try {
-//             await axios.post("http://localhost:8080/auth/reset-password", { 
+//             await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/reset-password", { 
 //                 phoneNumber: val, 
 //                 otp: otp, 
 //                 newPassword: newPass 

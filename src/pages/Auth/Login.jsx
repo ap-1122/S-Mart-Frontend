@@ -15,7 +15,7 @@ const Login = ({ onLoginSuccess }) => {
         console.log("Attempting Login with:", form);
 
         try {
-            const res = await axios.post("http://localhost:8080/auth/login", form);
+            const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
             console.log("Login Success Data:", res.data);
 
             // ✅ 1. Save Token & Username
@@ -53,7 +53,7 @@ const Login = ({ onLoginSuccess }) => {
 
     const handleGoogleSuccess = async (response) => {
         try {
-            const res = await axios.post("http://localhost:8080/auth/google", { token: response.credential });
+            const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/google", { token: response.credential });
             
             // ✅ Same logic for Google Login
             localStorage.setItem("token", res.data.token);
@@ -149,7 +149,7 @@ export default Login;
 //         console.log("Attempting Login with:", form);
 
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/login", form);
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
 //             console.log("Login Success Data:", res.data);
 
 //             // Yahan backend se aaya username use ho raha hai
@@ -173,7 +173,7 @@ export default Login;
 
 //     const handleGoogleSuccess = async (response) => {
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/google", { token: response.credential });
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/google", { token: response.credential });
             
 //             // FIX: "Google User" hata kar backend se aaya naam (res.data.username) laga diya
 //             onLoginSuccess(res.data.username, res.data.token);
@@ -258,7 +258,7 @@ export default Login;
 //         console.log("Attempting Login with:", form);
 
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/login", form);
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
 //             console.log("Login Success Data:", res.data);
 
 //             // Yahan backend se aaya username use ho raha hai
@@ -282,7 +282,7 @@ export default Login;
 
 //     const handleGoogleSuccess = async (response) => {
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/google", { token: response.credential });
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/google", { token: response.credential });
             
 //             // FIX: "Google User" hata kar backend se aaya naam (res.data.username) laga diya
 //             onLoginSuccess(res.data.username, res.data.token);
@@ -346,7 +346,7 @@ export default Login;
 //         console.log("Attempting Login with:", form);
 
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/login", form);
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
 //             console.log("Login Success Data:", res.data);
 
 //             // App.jsx ko update karo
@@ -370,7 +370,7 @@ export default Login;
 
 //     const handleGoogleSuccess = async (response) => {
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/google", { token: response.credential });
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/google", { token: response.credential });
 //             onLoginSuccess("Google User", res.data.token);
 //             navigate('/');
 //         } catch (err) {
@@ -434,7 +434,7 @@ export default Login;
 //     const handleLogin = async (e) => {
 //         e.preventDefault();
 //         try {
-//             const res = await axios.post("http://localhost:8080/auth/login", form);
+//             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
 //             onLoginSuccess(res.data.username, res.data.token); // App.jsx ko update karo
 //             navigate('/');
 //         } catch (err) {

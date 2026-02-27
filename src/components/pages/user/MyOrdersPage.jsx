@@ -58,7 +58,7 @@ const MyOrdersPage = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:8080/api/orders/my-orders", {
+        const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/orders/my-orders", {
           headers: { Authorization: `Bearer ${token}` },
         });
         
@@ -84,7 +84,7 @@ const MyOrdersPage = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post(`http://localhost:8080/api/orders/${orderId}/cancel`, {}, {
+      await axios.post(`https://s-mart-backend-m8zo.onrender.com/api/orders/${orderId}/cancel`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("Order Cancelled Successfully");
@@ -252,7 +252,7 @@ export default MyOrdersPage;
 //       }
 
 //       try {
-//         const response = await axios.get("http://localhost:8080/api/orders/my-orders", {
+//         const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/orders/my-orders", {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
         
@@ -284,7 +284,7 @@ export default MyOrdersPage;
 
 //     try {
 //       const token = localStorage.getItem("token");
-//       await axios.post(`http://localhost:8080/api/orders/${orderId}/cancel`, {}, {
+//       await axios.post(`https://s-mart-backend-m8zo.onrender.com/api/orders/${orderId}/cancel`, {}, {
 //         headers: { Authorization: `Bearer ${token}` }
 //       });
       

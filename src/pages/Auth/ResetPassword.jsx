@@ -23,7 +23,7 @@ const ResetPassword = () => {
 
         try {
             // Backend ko Token + New Password bhejo
-            await axios.post("http://localhost:8080/auth/reset-password", {
+            await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/reset-password", {
                 token: token,
                 newPassword: newPassword
             });

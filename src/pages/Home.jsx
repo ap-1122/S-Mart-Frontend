@@ -740,11 +740,11 @@ export default Home;
 //     const loadData = async () => {
 //       try {
 //         // Step A: Public API se saare products mangwana
-//         const prodRes = await axios.get("http://localhost:8080/public/products");
+//         const prodRes = await axios.get("https://s-mart-backend-m8zo.onrender.com/public/products");
 //         setProducts(prodRes.data);
 
 //         // Step B: Admin API se categories mangwana (Dropdown/List ke liye)
-//         const catRes = await axios.get("http://localhost:8080/admin/products/categories");
+//         const catRes = await axios.get("https://s-mart-backend-m8zo.onrender.com/admin/products/categories");
 //         setCategories(catRes.data);
 //       } catch (error) {
 //         console.error("Error loading home data:", error);

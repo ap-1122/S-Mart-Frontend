@@ -18,7 +18,7 @@ export default function AdminUsersPage() {
   const fetchUsers = async () => {
     try {
       // Backend se saare users + unka premium status aayega
-      const res = await axios.get("http://localhost:8080/api/users/all", {
+      const res = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/users/all", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data);
@@ -36,7 +36,7 @@ export default function AdminUsersPage() {
 
     try {
       await axios.put(
-        `http://localhost:8080/api/users/${userId}/role?role=${newRole}`, 
+        `https://s-mart-backend-m8zo.onrender.com/api/users/${userId}/role?role=${newRole}`, 
         {}, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -173,7 +173,7 @@ export default function AdminUsersPage() {
 
 //   const fetchUsers = async () => {
 //     try {
-//       const res = await axios.get("http://localhost:8080/api/users/all", {
+//       const res = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/users/all", {
 //         headers: { Authorization: `Bearer ${token}` }
 //       });
 //       setUsers(res.data);
@@ -191,7 +191,7 @@ export default function AdminUsersPage() {
 
 //     try {
 //       await axios.put(
-//         `http://localhost:8080/api/users/${userId}/role?role=${newRole}`, 
+//         `https://s-mart-backend-m8zo.onrender.com/api/users/${userId}/role?role=${newRole}`, 
 //         {}, 
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );

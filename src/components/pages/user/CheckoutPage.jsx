@@ -38,7 +38,7 @@ const CheckoutPage = () => {
 
       try {
         // 1. Fetch Addresses
-        const addrResponse = await axios.get("http://localhost:8080/api/addresses/", {
+        const addrResponse = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/addresses/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAddresses(addrResponse.data);
@@ -48,7 +48,7 @@ const CheckoutPage = () => {
 
         // ✅ 2. Fetch Prime Status (NEW)
         try {
-            const primeResponse = await axios.get("http://localhost:8080/api/subscription/status", {
+            const primeResponse = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/subscription/status", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             if (primeResponse.data && primeResponse.data.isPremium) {
@@ -88,7 +88,7 @@ const CheckoutPage = () => {
     if (paymentMethod === "COD") {
         try {
             const response = await axios.post(
-                `http://localhost:8080/api/orders/place?addressId=${selectedAddressId}&paymentMethod=COD`,
+                `https://s-mart-backend-m8zo.onrender.com/api/orders/place?addressId=${selectedAddressId}&paymentMethod=COD`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -113,7 +113,7 @@ const CheckoutPage = () => {
             // Step A: Create Order on Backend (Sending FINAL DISCOUNTED AMOUNT)
             // ✅ CHANGE: 'amount' ki jagah 'finalAmount' bheja
             const orderRes = await axios.post(
-                `http://localhost:8080/api/payment/create-order?amount=${finalAmount}`, 
+                `https://s-mart-backend-m8zo.onrender.com/api/payment/create-order?amount=${finalAmount}`, 
                 {}, 
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -132,7 +132,7 @@ const CheckoutPage = () => {
                 handler: async function (response) {
                     try {
                         await axios.post(
-                            "http://localhost:8080/api/payment/verify-payment",
+                            "https://s-mart-backend-m8zo.onrender.com/api/payment/verify-payment",
                             {
                                 razorpayOrderId: response.razorpay_order_id,
                                 razorpayPaymentId: response.razorpay_payment_id,
@@ -352,7 +352,7 @@ export default CheckoutPage;
 //       }
 
 //       try {
-//         const response = await axios.get("http://localhost:8080/api/addresses/", {
+//         const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/addresses/", {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
 //         setAddresses(response.data);
@@ -383,7 +383,7 @@ export default CheckoutPage;
 //     if (paymentMethod === "COD") {
 //         try {
 //             const response = await axios.post(
-//                 `http://localhost:8080/api/orders/place?addressId=${selectedAddressId}&paymentMethod=COD`,
+//                 `https://s-mart-backend-m8zo.onrender.com/api/orders/place?addressId=${selectedAddressId}&paymentMethod=COD`,
 //                 {},
 //                 { headers: { Authorization: `Bearer ${token}` } }
 //             );
@@ -407,7 +407,7 @@ export default CheckoutPage;
 //         try {
 //             // Step A: Create Order on Backend
 //             const orderRes = await axios.post(
-//                 `http://localhost:8080/api/payment/create-order?amount=${amount}`, 
+//                 `https://s-mart-backend-m8zo.onrender.com/api/payment/create-order?amount=${amount}`, 
 //                 {}, 
 //                 { headers: { Authorization: `Bearer ${token}` } }
 //             );
@@ -428,7 +428,7 @@ export default CheckoutPage;
 //                     try {
 //                         // ✅ FIX 2: Variable hata diya, direct await use kiya
 //                         await axios.post(
-//                             "http://localhost:8080/api/payment/verify-payment",
+//                             "https://s-mart-backend-m8zo.onrender.com/api/payment/verify-payment",
 //                             {
 //                                 razorpayOrderId: response.razorpay_order_id,
 //                                 razorpayPaymentId: response.razorpay_payment_id,
@@ -620,7 +620,7 @@ export default CheckoutPage;
 //       }
 
 //       try {
-//         const response = await axios.get("http://localhost:8080/api/addresses/", {
+//         const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/addresses/", {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
 //         setAddresses(response.data);
@@ -662,7 +662,7 @@ export default CheckoutPage;
 //     try {
 //       // API Call: Address ID aur Payment Method query params mein bhej rahe hain
 //       const response = await axios.post(
-//         `http://localhost:8080/api/orders/place?addressId=${selectedAddressId}&paymentMethod=${paymentMethod}`,
+//         `https://s-mart-backend-m8zo.onrender.com/api/orders/place?addressId=${selectedAddressId}&paymentMethod=${paymentMethod}`,
 //         {}, // Body empty hai kyunki data params mein hai
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );

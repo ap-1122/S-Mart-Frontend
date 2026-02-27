@@ -36,7 +36,7 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+        const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
         const data = response.data;
         setProduct(data);
 
@@ -316,7 +316,7 @@ export default ProductDetailsPage;
 //   useEffect(() => {
 //     const fetchProduct = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
 //         setProduct(data);
 
@@ -586,7 +586,7 @@ export default ProductDetailsPage;
 //   useEffect(() => {
 //     const fetchProduct = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
 //         setProduct(data);
 
@@ -843,7 +843,7 @@ export default ProductDetailsPage;
 //   useEffect(() => {
 //     const fetchProduct = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
 //         setProduct(data);
         
@@ -1105,7 +1105,7 @@ export default ProductDetailsPage;
 //   useEffect(() => {
 //     const fetchProduct = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
 //         setProduct(data);
         
@@ -1293,7 +1293,7 @@ export default ProductDetailsPage;
 //   useEffect(() => {
 //     const fetchProduct = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
 //         setProduct(data);
         
@@ -1523,7 +1523,7 @@ export default ProductDetailsPage;
 //     const fetchProduct = async () => {
 //       try {
 //         // Wahi API call jo tumne Postman me test ki
-//         const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+//         const response = await axios.get(`https://s-mart-backend-m8zo.onrender.com/api/products/${id}`);
 //         const data = response.data;
         
 //         setProduct(data);

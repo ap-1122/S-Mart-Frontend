@@ -55,7 +55,7 @@ const ForgotPassword = () => {
             }
 
             console.log("Sending OTP Request:", payload);
-            await axios.post("http://localhost:8080/auth/send-otp", payload);
+            await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/send-otp", payload);
             
             alert(`Code sent to ${cleanVal}!`);
             setStep(2); 
@@ -101,7 +101,7 @@ const ForgotPassword = () => {
             console.log("Sending Final Reset Payload:", payload); // F12 dabakar Console check karna
 
             // Note: URL wahi hona chahiye jo tumhare PasswordController me mapped hai
-            await axios.post("http://localhost:8080/auth/reset-password", payload);
+            await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/reset-password", payload);
             
             alert("Password Reset Successful! Login now.");
             navigate('/login');

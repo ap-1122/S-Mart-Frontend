@@ -19,7 +19,7 @@ export default function AdminOrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/orders/admin/all", {
+      const res = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/orders/admin/all", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(res.data);
@@ -36,7 +36,7 @@ export default function AdminOrdersPage() {
     try {
       // Backend Call: PUT /api/orders/admin/{id}/status?status=XYZ
       await axios.put(
-        `http://localhost:8080/api/orders/admin/${orderId}/status?status=${newStatus}`, 
+        `https://s-mart-backend-m8zo.onrender.com/api/orders/admin/${orderId}/status?status=${newStatus}`, 
         {}, 
         { headers: { Authorization: `Bearer ${token}` } }
       );

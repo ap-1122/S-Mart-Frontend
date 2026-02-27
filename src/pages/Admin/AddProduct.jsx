@@ -220,8 +220,8 @@ export default AddProduct;
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const catRes = await axios.get("http://localhost:8080/admin/products/categories");
-//         const attRes = await axios.get("http://localhost:8080/admin/products/attributes");
+//         const catRes = await axios.get("https://s-mart-backend-m8zo.onrender.com/admin/products/categories");
+//         const attRes = await axios.get("https://s-mart-backend-m8zo.onrender.com/admin/products/attributes");
 //         setCategories(catRes.data);
 //         setAttributes(attRes.data);
 //       } catch (error) {
@@ -296,7 +296,7 @@ export default AddProduct;
 //     };
 
 //     try {
-//         await axios.post("http://localhost:8080/admin/products/create", payload);
+//         await axios.post("https://s-mart-backend-m8zo.onrender.com/admin/products/create", payload);
 //         alert("Product Created Successfully! 🎉");
 //         // Reset form or redirect
 //     } catch (error) {

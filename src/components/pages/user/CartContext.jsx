@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
     }
 
     try {
-      const response = await axios.get("http://localhost:8080/api/cart/", config);
+      const response = await axios.get("https://s-mart-backend-m8zo.onrender.com/api/cart/", config);
       setCartItems(response.data.items || []);
       setCartTotal(response.data.totalAmount || 0);
     } catch (error) {
@@ -60,7 +60,7 @@ export const CartProvider = ({ children }) => {
     try {
       // Backend Call
       await axios.post(
-        "http://localhost:8080/api/cart/add",
+        "https://s-mart-backend-m8zo.onrender.com/api/cart/add",
         null,
         {
           params: {
@@ -89,7 +89,7 @@ export const CartProvider = ({ children }) => {
     if (!config) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/cart/remove/${cartItemId}`, config);
+      await axios.delete(`https://s-mart-backend-m8zo.onrender.com/api/cart/remove/${cartItemId}`, config);
       fetchCart();
     } catch (error) {
       console.error("Remove error:", error);
@@ -104,7 +104,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       await axios.put(
-        "http://localhost:8080/api/cart/update",
+        "https://s-mart-backend-m8zo.onrender.com/api/cart/update",
         null,
         {
           params: { cartItemId, quantity },

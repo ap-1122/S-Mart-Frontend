@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend ka base URL
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://s-mart-backend-m8zo.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -39,7 +39,7 @@ export default api;
 // import axios from 'axios';
 
 // // Backend ka base URL (Change karna aasaan hoga baad mein)
-// const API_URL = "http://localhost:8080/api";
+// const API_URL = "https://s-mart-backend-m8zo.onrender.com/api";
 
 // const api = axios.create({
 //   baseURL: API_URL,

@@ -24,7 +24,7 @@ const AddAddressPage = () => {
     const token = localStorage.getItem("token");
     
     try {
-      await axios.post("http://localhost:8080/api/addresses/add", formData, {
+      await axios.post("https://s-mart-backend-m8zo.onrender.com/api/addresses/add", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
