@@ -14,7 +14,7 @@ import ProtectedRoute from './pages/Auth/ProtectedRoute';
 // Admin Imports
 import AdminLayout from './layouts/AdminLayout';
 import CreateProductLayout from './components/admin/CreateProductLayout';
-import AdminBrands from './pages/admin/AdminBrands';
+import AdminBrands from './pages/admin/BrandsAdmin';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage'; // ✅ IMPORT
