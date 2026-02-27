@@ -15,7 +15,7 @@ import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import AdminLayout from './layouts/AdminLayout';
 import CreateProductLayout from './components/admin/CreateProductLayout';
 // import AdminBrands from './pages/admin/BrandsAdmin';
-import AdminBrands from './pages/admin/BrandPage.jsx';
+import AdminBrands from './pages/BrandPage'; // ✅ Updated Import Path
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage'; // ✅ IMPORT
