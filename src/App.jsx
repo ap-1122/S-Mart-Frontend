@@ -16,10 +16,10 @@ import AdminLayout from './layouts/AdminLayout';
 import CreateProductLayout from './components/admin/CreateProductLayout';
 // import AdminBrands from './pages/admin/BrandsAdmin';
 //import AdminBrands from './pages/BrandPage'; // ✅ Updated Import Path   
-import AdminCategories from './pages/adminX/AdminCategories';
-import AdminDashboard from './pages/adminX/AdminDashboard';
-import AdminOrdersPage from './pages/adminX/AdminOrdersPage'; // ✅ IMPORT
-import AdminUsersPage from './pages/adminX/AdminUsersPage';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminOrdersPage from './pages/admin/AdminOrdersPage'; // ✅ IMPORT
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 import ProductDetailsPage from './components/pages/user/ProductDetailsPage';
 import { CartProvider } from './components/pages/user/CartContext';

@@ -12,7 +12,7 @@ const Login = ({ onLoginSuccess }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Attempting Login with:", form);
+      //  console.log("Attempting Login with:", form);  //it prints the email and password in console when we click on login button
 
         try {
             const res = await axios.post("https://s-mart-backend-m8zo.onrender.com/auth/login", form);
